@@ -2,12 +2,18 @@ import sys
 
 def is_repetition_list(seq):
     n = len(seq)
-    if n%2 != 0:
-        return False, None
+    # i es el tamaño del bloque que selecciono
+    for i in range(1, n // 2 + 1):
+        # si no es divisible el numero por el bloque paso al siguiente
+        if n % i != 0:
+            continue
+        veces_que_cabe = n // i
+        patron = seq[:i]
         
-    mitad = n // 2
-
-    return seq[:mitad] == seq[mitad:], None
+        if patron * veces_que_cabe == seq:
+            return True, patron
+    return False, []
+        
 
 def validate_id(path):
     try:
