@@ -5,13 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Day01",
+            "request": "launch",
+            "mainClass": "Day01",
+            "projectName": "advent-of-code-2025_59a0c655"
+        },
+        {
             "name": "Python Debugger: Current File with Arguments",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${fileDirname}",   
-            "args": ["input.txt"]
+            "cwd": "${fileDirname}",
+            "args": [
+                "input.txt"
+            ]
         }
     ]
 }
