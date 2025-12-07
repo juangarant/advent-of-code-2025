@@ -1,32 +1,83 @@
 import sys
 
-def splitarray(arr):
-    elements = arr.splitlines()
-    numbers = []
-    signs = []
-    for line in elements:
-        rownumbers = []
-        isNumber = False
-        rowsigns = []
-        isSign = False
-        for item in line.split():
-            if item.isdigit():
-                rownumbers.append(int(item))
-                isNumber = True
-            else:
-                rowsigns.append(item)
-                isSign = True
-        if isNumber:
-            numbers.append(rownumbers)
-        if isSign:
-            signs.append(rowsigns)  
-    return numbers, signs
+def generatearray(file):
+    lines = file.splitlines()
 
-def compacttrash(file):
-    numbers, signs = splitarray(file)
+    finalgrid = []
+
+    for line in lines:
+        elements = line.split()
+        if elements[0].isdigit():
+            numberrow = [int(num) for num in elements]
+            finalgrid.append(numberrow)
+        else:
+            finalgrid.append(elements)
+    return finalgrid
+
+def generatearray2(file):
+    lines = file.splitlines()
+
+    finalgrid = []
+    for line in lines:
+        elements = list(line)
+        finalgrid.append(elements)
+    return finalgrid
+
+def compacttrash2(file):
+    grid = generatearray2(file)
     total = 0
-    numberrowlen = len(numbers)
-    signrowlen = len(signs)
+    m = len(grid)  # number of rows
+    n = len(grid[0])  # number of columns
+    total = 0
+    for i in range(n):
+        count = 0
+        operador = grid[m-1][i]
+        if operador == '*':
+            count = 1
+        for j in range(m-1):
+            valor = grid[j][i]
+            if operador == '+':
+                count += int(valor)
+            if operador == '*':
+                count *= int(valor)
+        total += count
+    return total
+            
+def compacttrash(file):
+    grid = generatearray2(file)
+    total = 0
+    m = len(grid)  # number of rows
+    n = len(grid[0])  # number of columns
+    total = 0
+    count = 0
+    firstround = True
+    for i in range(n):
+        number = ''
+        if grid[m-1][i] != ' ':
+            operador = grid[m-1][i]
+        if firstround and operador == '*':
+            count = 1
+            firstround = False
+        for j in range(m-1):
+            valor = grid[j][i]
+            if valor == ' ':
+                continue 
+            else:
+                number += valor
+        
+        if number.isdigit():
+            number = int(number)
+            if operador == '+':
+                count += number
+            if operador == '*':
+                count *= number
+        if number == '' or i == n-1:
+            total += count
+            count = 0
+            firstround = True
+    return total
+
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
